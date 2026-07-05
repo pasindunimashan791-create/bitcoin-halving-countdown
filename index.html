@@ -7,8 +7,8 @@
 
 <title>Bitcoin Halving Countdown 2028 | Live BTC Tracker</title>
 
-<meta name="description" content="Live Bitcoin Halving Countdown with real-time BTC price, block height, and crypto dashboard. Track Bitcoin halving 2028 easily.">
-<meta name="keywords" content="bitcoin halving, btc countdown, bitcoin price, block height, crypto tracker">
+<meta name="description" content="Live Bitcoin Halving Countdown with BTC price, block height, and crypto tracker dashboard.">
+<meta name="keywords" content="bitcoin halving, btc countdown, bitcoin price, crypto tracker">
 <meta name="robots" content="index, follow">
 
 <style>
@@ -19,7 +19,6 @@ font-family:Arial;
 background: radial-gradient(circle at top, #0f172a, #000);
 color:white;
 text-align:center;
-overflow-x:hidden;
 }
 
 .glow{
@@ -95,7 +94,17 @@ background:linear-gradient(90deg,#f7931a,#00ffcc);
 font-size:12px;
 color:#777;
 margin-top:25px;
-padding-bottom:30px;
+padding-bottom:10px;
+}
+
+.links a{
+color:#f7931a;
+margin:0 10px;
+text-decoration:none;
+}
+
+.links a:hover{
+text-decoration:underline;
 }
 
 </style>
@@ -126,16 +135,21 @@ padding-bottom:30px;
 <div class="progress">
 <div class="bar" id="bar"></div>
 </div>
-<div class="small">Approx progress toward next halving</div>
+</div>
+
+<div class="card links">
+<a href="privacy.html">Privacy Policy</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
 </div>
 
 <div class="footer">
-Live Bitcoin Crypto Dashboard
+Live Crypto Dashboard
 </div>
 
 <script>
 
-// ================= COUNTDOWN =================
+// COUNTDOWN
 const target = new Date("2028-04-10T00:00:00").getTime();
 
 setInterval(()=>{
@@ -151,8 +165,7 @@ document.getElementById("countdown").innerHTML =
 d+"d "+h+"h "+m+"m "+s+"s";
 },1000);
 
-
-// ================= PRICE =================
+// PRICE
 async function getPrice(){
 try{
 const res = await fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot");
@@ -167,24 +180,22 @@ document.getElementById("btcPrice").innerText="Error";
 getPrice();
 setInterval(getPrice,60000);
 
-
-// ================= BLOCK HEIGHT =================
+// BLOCK HEIGHT
 async function getBlock(){
 try{
 const res = await fetch("https://blockchain.info/q/getblockcount");
 const data = await res.text();
 document.getElementById("blockHeight").innerText = data;
 
-// simple progress (approx)
 let current = parseInt(data);
 let start = 840000;
 let next = 1050000;
 
 let progress = ((current - start)/(next - start))*100;
-if(progress > 100) progress = 100;
-if(progress < 0) progress = 0;
+if(progress>100)progress=100;
+if(progress<0)progress=0;
 
-document.getElementById("bar").style.width = progress + "%";
+document.getElementById("bar").style.width = progress+"%";
 
 }catch(e){
 document.getElementById("blockHeight").innerText="Error";
