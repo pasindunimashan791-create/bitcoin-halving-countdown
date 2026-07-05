@@ -7,7 +7,7 @@
 
 <title>Bitcoin Halving Countdown 2028 | Live BTC Tracker</title>
 
-<meta name="description" content="Live Bitcoin Halving Countdown with BTC price, block height, and crypto tracker dashboard.">
+<meta name="description" content="Live Bitcoin Halving Countdown with BTC price, block height, and crypto affiliate tools.">
 <meta name="keywords" content="bitcoin halving, btc countdown, bitcoin price, crypto tracker">
 <meta name="robots" content="index, follow">
 
@@ -19,6 +19,7 @@ font-family:Arial;
 background: radial-gradient(circle at top, #0f172a, #000);
 color:white;
 text-align:center;
+overflow-x:hidden;
 }
 
 .glow{
@@ -71,41 +72,30 @@ color:#fff;
 }
 
 .small{
-font-size:14px;
+font-size:13px;
 color:#aaa;
 }
 
-.progress{
-width:85%;
-height:12px;
-background:#222;
-margin:10px auto;
-border-radius:10px;
-overflow:hidden;
+.button{
+padding:10px 18px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+margin:5px;
 }
 
-.bar{
-height:100%;
-width:40%;
-background:linear-gradient(90deg,#f7931a,#00ffcc);
-}
+.binance{background:#f7931a;color:#000;}
+.bybit{background:#00ffcc;color:#000;}
 
 .footer{
 font-size:12px;
 color:#777;
 margin-top:25px;
-padding-bottom:10px;
+padding-bottom:20px;
 }
 
-.links a{
-color:#f7931a;
-margin:0 10px;
-text-decoration:none;
-}
-
-.links a:hover{
-text-decoration:underline;
-}
+a{text-decoration:none;}
 
 </style>
 
@@ -126,25 +116,23 @@ text-decoration:underline;
 💰 Bitcoin Price: $<span id="btcPrice">Loading...</span>
 </div>
 
+<!-- AFFILIATE SECTION -->
 <div class="card">
-⛏️ Block Height: <span id="blockHeight">Loading...</span>
-</div>
+<h3>💰 Start Crypto Trading</h3>
+<p>Join trusted exchanges and start your crypto journey.</p>
 
-<div class="card">
-📊 Halving Progress
-<div class="progress">
-<div class="bar" id="bar"></div>
-</div>
-</div>
+<a href="https://www.binance.com/referral/earn-together/refer2earn-usdc/claim?hl=en&ref=GRO_28502_1IDLP&utm_source=referral_entrance" target="_blank">
+<button class="button binance">Start on Binance</button>
+</a>
 
-<div class="card links">
-<a href="privacy.html">Privacy Policy</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
+<a href="https://www.bybit.com/invite?ref=1BDP9Z&medium=referral&utm_campaign=evergreen" target="_blank">
+<button class="button bybit">Start on Bybit</button>
+</a>
+
 </div>
 
 <div class="footer">
-Live Crypto Dashboard
+Live Bitcoin Dashboard • Affiliate links included
 </div>
 
 <script>
@@ -179,31 +167,6 @@ document.getElementById("btcPrice").innerText="Error";
 
 getPrice();
 setInterval(getPrice,60000);
-
-// BLOCK HEIGHT
-async function getBlock(){
-try{
-const res = await fetch("https://blockchain.info/q/getblockcount");
-const data = await res.text();
-document.getElementById("blockHeight").innerText = data;
-
-let current = parseInt(data);
-let start = 840000;
-let next = 1050000;
-
-let progress = ((current - start)/(next - start))*100;
-if(progress>100)progress=100;
-if(progress<0)progress=0;
-
-document.getElementById("bar").style.width = progress+"%";
-
-}catch(e){
-document.getElementById("blockHeight").innerText="Error";
-}
-}
-
-getBlock();
-setInterval(getBlock,30000);
 
 </script>
 
