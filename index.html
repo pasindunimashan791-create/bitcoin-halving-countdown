@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bitcoin Halving Countdown</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f1a;
+      color: #fff;
+      text-align: center;
+    }
+    h1 {
+      color: #f7931a;
+      margin-top: 30px;
+    }
+    .box {
+      margin-top: 30px;
+      font-size: 22px;
+    }
+    .timer {
+      font-size: 40px;
+      margin-top: 20px;
+      color: #00ffcc;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Bitcoin Halving Countdown</h1>
+
+<div class="box">
+  Next Bitcoin Halving In:
+</div>
+
+<div class="timer" id="countdown">
+  Loading...
+</div>
+
+<script>
+  // Estimated next halving date (approx 2028)
+  const targetDate = new Date("2028-04-10T00:00:00").getTime();
+
+  const timer = setInterval(function () {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown").innerHTML =
+      days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+    if (distance < 0) {
+      clearInterval(timer);
+      document.getElementById("countdown").innerHTML = "HALVING TIME!";
+    }
+  }, 1000);
+</script>
+
+</body>
+</html>
