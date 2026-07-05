@@ -5,28 +5,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bitcoin Halving Countdown 2028 | Live BTC Price & Timer</title>
+<title>Bitcoin Halving Countdown 2028 | Live BTC Tracker</title>
 
-<meta name="description" content="Live Bitcoin Halving Countdown 2028 with real-time BTC price, timer, and crypto dashboard. Track Bitcoin halving easily.">
-<meta name="keywords" content="bitcoin halving, btc countdown, bitcoin price live, crypto timer, bitcoin halving 2028">
+<meta name="description" content="Live Bitcoin Halving Countdown with real-time BTC price, block height, and crypto dashboard. Track Bitcoin halving 2028 easily.">
+<meta name="keywords" content="bitcoin halving, btc countdown, bitcoin price, block height, crypto tracker">
 <meta name="robots" content="index, follow">
 
 <style>
+
 body{
 margin:0;
 font-family:Arial;
 background: radial-gradient(circle at top, #0f172a, #000);
 color:white;
 text-align:center;
+overflow-x:hidden;
 }
 
 .glow{
 position:absolute;
-width:250px;
-height:250px;
+width:280px;
+height:280px;
 background:#00ffcc;
-filter:blur(130px);
-opacity:0.2;
+filter:blur(140px);
+opacity:0.15;
 top:10%;
 left:50%;
 transform:translateX(-50%);
@@ -35,7 +37,7 @@ z-index:-1;
 
 h1{
 color:#f7931a;
-margin-top:30px;
+margin-top:25px;
 font-size:32px;
 text-shadow:0 0 10px #f7931a, 0 0 20px #ff9900;
 }
@@ -43,7 +45,7 @@ text-shadow:0 0 10px #f7931a, 0 0 20px #ff9900;
 .card{
 background: rgba(255,255,255,0.05);
 backdrop-filter: blur(12px);
-margin:20px auto;
+margin:18px auto;
 padding:18px;
 width:85%;
 border-radius:15px;
@@ -66,23 +68,36 @@ text-shadow:0 0 10px #00ffcc, 0 0 20px #00ffee;
 .price{
 font-size:20px;
 margin-top:10px;
-color:#ffffff;
+color:#fff;
+}
+
+.small{
+font-size:14px;
+color:#aaa;
+}
+
+.progress{
+width:85%;
+height:12px;
+background:#222;
+margin:10px auto;
+border-radius:10px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+width:40%;
+background:linear-gradient(90deg,#f7931a,#00ffcc);
 }
 
 .footer{
 font-size:12px;
 color:#777;
-margin-top:30px;
+margin-top:25px;
+padding-bottom:30px;
 }
 
-.info{
-padding:20px;
-color:#aaa;
-font-size:14px;
-text-align:left;
-max-width:800px;
-margin:auto;
-}
 </style>
 
 </head>
@@ -94,7 +109,7 @@ margin:auto;
 <h1>₿ Bitcoin Halving Countdown</h1>
 
 <div class="card">
-<div>Next Halving In</div>
+<div class="small">Next Halving In</div>
 <div class="timer" id="countdown">Loading...</div>
 </div>
 
@@ -103,22 +118,24 @@ margin:auto;
 </div>
 
 <div class="card">
-⚡ Live Crypto Dashboard
+⛏️ Block Height: <span id="blockHeight">Loading...</span>
+</div>
+
+<div class="card">
+📊 Halving Progress
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+<div class="small">Approx progress toward next halving</div>
 </div>
 
 <div class="footer">
-Powered by live market data
-</div>
-
-<div class="info">
-<h2>What is Bitcoin Halving?</h2>
-Bitcoin halving is a major event in the Bitcoin network where mining rewards are reduced by 50%. 
-This reduces supply and often impacts Bitcoin price over time. Investors and miners closely watch this event.
+Live Bitcoin Crypto Dashboard
 </div>
 
 <script>
 
-// ⏳ COUNTDOWN
+// ================= COUNTDOWN =================
 const target = new Date("2028-04-10T00:00:00").getTime();
 
 setInterval(()=>{
@@ -134,15 +151,14 @@ document.getElementById("countdown").innerHTML =
 d+"d "+h+"h "+m+"m "+s+"s";
 },1000);
 
-// 💰 BITCOIN PRICE
+
+// ================= PRICE =================
 async function getPrice(){
 try{
 const res = await fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot");
 const data = await res.json();
-
 document.getElementById("btcPrice").innerText =
 parseFloat(data.data.amount).toLocaleString();
-
 }catch(e){
 document.getElementById("btcPrice").innerText="Error";
 }
@@ -150,6 +166,33 @@ document.getElementById("btcPrice").innerText="Error";
 
 getPrice();
 setInterval(getPrice,60000);
+
+
+// ================= BLOCK HEIGHT =================
+async function getBlock(){
+try{
+const res = await fetch("https://blockchain.info/q/getblockcount");
+const data = await res.text();
+document.getElementById("blockHeight").innerText = data;
+
+// simple progress (approx)
+let current = parseInt(data);
+let start = 840000;
+let next = 1050000;
+
+let progress = ((current - start)/(next - start))*100;
+if(progress > 100) progress = 100;
+if(progress < 0) progress = 0;
+
+document.getElementById("bar").style.width = progress + "%";
+
+}catch(e){
+document.getElementById("blockHeight").innerText="Error";
+}
+}
+
+getBlock();
+setInterval(getBlock,30000);
 
 </script>
 
