@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Crypto MultiTools | Live Market & News Dashboard</title>
+<title>Crypto MultiTools | Portfolio & Live Market</title>
 
-<meta name="description" content="Live crypto prices, top market coins, calculators and crypto news in one dashboard.">
-<meta name="keywords" content="bitcoin, crypto, btc price, ethereum, solana, crypto news">
+<meta name="description" content="Live crypto dashboard with market prices, calculators, news and portfolio tracker.">
+<meta name="keywords" content="bitcoin, crypto tracker, portfolio, dca calculator, crypto tools">
 
 <style>
 
@@ -227,6 +227,21 @@ margin:20px;
 
 <h3 id="dca_result">Result: --</h3>
 
+<hr style="border:1px solid rgba(255,255,255,0.1);margin:15px 0;">
+
+<h3>💼 Portfolio Tracker</h3>
+
+<input id="coinName" placeholder="Coin Name (BTC, ETH...)">
+<input id="coinAmount" placeholder="Amount Owned">
+
+<br>
+
+<button class="button binance" onclick="addCoin()">Add Coin</button>
+
+<h3>Your Portfolio</h3>
+
+<div id="portfolioList" style="text-align:left;color:#aaa;"></div>
+
 </div>
 
 </section>
@@ -240,11 +255,11 @@ margin:20px;
 
 <ul style="text-align:left;color:#aaa;line-height:1.6;">
 
-<li>📈 Bitcoin continues strong market movement</li>
-<li>🔥 Ethereum upgrades improve scalability</li>
-<li>🚀 Solana ecosystem growing rapidly</li>
-<li>💰 Crypto adoption increasing globally</li>
-<li>📊 Traders watching key BTC levels</li>
+<li>📈 Bitcoin market remains strong</li>
+<li>🔥 Ethereum network upgrades continue</li>
+<li>🚀 Solana ecosystem expanding rapidly</li>
+<li>💰 Crypto adoption growing worldwide</li>
+<li>📊 Traders watching BTC resistance levels</li>
 
 </ul>
 
@@ -377,6 +392,47 @@ document.getElementById("dca_result").innerText =
 "Coins: " + coins.toFixed(6) + " | Avg: $" + avg.toFixed(2);
 
 }
+
+// PORTFOLIO TRACKER
+let portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
+
+function showPortfolio(){
+let html = "";
+
+portfolio.forEach((item, index)=>{
+html += `<p>${item.name} - ${item.amount}
+<button onclick="removeCoin(${index})" style="background:red;color:white;border:none;padding:3px 6px;border-radius:4px;">X</button></p>`;
+});
+
+document.getElementById("portfolioList").innerHTML = html || "No coins added";
+}
+
+function addCoin(){
+
+let name = document.getElementById("coinName").value;
+let amount = document.getElementById("coinAmount").value;
+
+if(!name || !amount){
+alert("Enter valid data");
+return;
+}
+
+portfolio.push({name, amount});
+localStorage.setItem("portfolio", JSON.stringify(portfolio));
+
+document.getElementById("coinName").value = "";
+document.getElementById("coinAmount").value = "";
+
+showPortfolio();
+}
+
+function removeCoin(index){
+portfolio.splice(index,1);
+localStorage.setItem("portfolio", JSON.stringify(portfolio));
+showPortfolio();
+}
+
+showPortfolio();
 
 </script>
 
