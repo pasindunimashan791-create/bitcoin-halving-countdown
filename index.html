@@ -5,7 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Crypto Pro Dashboard | All-in-One</title>
+<title>Crypto Pro Dashboard | Full PWA Edition</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b0f1a">
 
 <style>
 
@@ -41,9 +44,7 @@ text-decoration:none;
 font-size:13px;
 }
 
-nav a:hover{
-color:#00ffcc;
-}
+nav a:hover{color:#00ffcc;}
 
 .card{
 background:#111827;
@@ -52,7 +53,6 @@ margin:15px auto;
 padding:15px;
 width:85%;
 border-radius:12px;
-box-shadow:0 0 10px rgba(0,255,204,0.05);
 }
 
 input{
@@ -112,7 +112,7 @@ margin:20px;
 <a href="#halving">Halving</a>
 <a href="#market">Market</a>
 <a href="#tools">Tools</a>
-<a href="#news">News</a>
+<a href="#earn">Earn</a>
 </nav>
 </header>
 
@@ -133,7 +133,7 @@ margin:20px;
 <h3>📊 Live Market (Binance)</h3>
 
 <table>
-<tr><th>Coin</th><th>Price (USDT)</th></tr>
+<tr><th>Coin</th><th>Price</th></tr>
 
 <tr><td>Bitcoin</td><td id="btc">--</td></tr>
 <tr><td>Ethereum</td><td id="eth">--</td></tr>
@@ -147,7 +147,7 @@ margin:20px;
 
 <!-- MOVERS -->
 <div class="card">
-<h3>📈 Market Movers (24h % Change)</h3>
+<h3>📈 Market Movers (24h %)</h3>
 
 <table>
 <tr><th>Coin</th><th>Price</th><th>Change</th></tr>
@@ -191,132 +191,162 @@ margin:20px;
 
 <h3>💼 Portfolio Tracker</h3>
 
-<input id="coinName" placeholder="Coin Name">
-<input id="coinAmount" placeholder="Amount Owned">
+<input id="coinName" placeholder="Coin">
+<input id="coinAmount" placeholder="Amount">
 
 <br>
 <button class="binance" onclick="addCoin()">Add</button>
 
 <div id="portfolioList" style="text-align:left;color:#aaa;"></div>
 
+<hr>
+
+<h3>🔔 Price Alert</h3>
+
+<input id="alertPrice" placeholder="BTC target price">
+<br>
+<button class="binance" onclick="setAlert()">Set Alert</button>
+<h4 id="alertStatus">No alert set</h4>
+
 </div>
 
 </section>
 
-<!-- NEWS -->
-<section id="news">
+<!-- EARN -->
+<section id="earn">
 
 <div class="card">
-<h3>📰 Crypto News</h3>
 
-<ul style="text-align:left;color:#aaa;line-height:1.6;">
-<li>Bitcoin market remains strong</li>
-<li>Ethereum upgrades improve scalability</li>
-<li>Solana ecosystem growing fast</li>
-<li>Crypto adoption increasing worldwide</li>
-<li>Traders watching BTC levels</li>
-</ul>
+<h3>💰 Earn With Crypto</h3>
+
+<a href="https://www.binance.com" target="_blank">
+<button class="binance">Binance</button>
+</a>
+
+<a href="https://www.bybit.com" target="_blank">
+<button class="bybit">Bybit</button>
+</a>
+
+<hr>
+
+<div style="height:120px;background:#0b1220;border:1px dashed #1f2937;
+display:flex;align-items:center;justify-content:center;color:#666;">
+Ad Space
+</div>
 
 </div>
 
 </section>
 
 <footer>
-Crypto Pro Dashboard • All-in-One Build
+Crypto Pro Dashboard • Full PWA Edition
 </footer>
 
 <script>
 
-/// HALVING COUNTDOWN
+/// PWA
+if ("serviceWorker" in navigator) {
+navigator.serviceWorker.register("sw.js");
+}
+
+/// HALVING
 const target = new Date("2028-04-10T00:00:00").getTime();
 
 setInterval(()=>{
-let now = new Date().getTime();
+let now = Date.now();
 let diff = target - now;
 
-let d = Math.floor(diff/(1000*60*60*24));
-let h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-let m = Math.floor((diff%(1000*60*60))/(1000*60));
-let s = Math.floor((diff%(1000*60))/1000);
+let d = Math.floor(diff/86400000);
+let h = Math.floor(diff%86400000/3600000);
+let m = Math.floor(diff%3600000/60000);
+let s = Math.floor(diff%60000/1000);
 
 document.getElementById("countdown").innerText =
 d+"d "+h+"h "+m+"m "+s+"s";
 },1000);
 
+/// MARKET
+let lastBTC = 0;
 
-/// BINANCE MARKET API (24h)
 async function getData(){
 try{
 
 const res = await fetch("https://api.binance.com/api/v3/ticker/24hr");
 const data = await res.json();
 
-function price(sym){
-let c = data.find(x=>x.symbol===sym);
-return c ? parseFloat(c.lastPrice).toFixed(2) : "--";
+function p(sym){
+let c=data.find(x=>x.symbol===sym);
+return c?parseFloat(c.lastPrice).toFixed(2):"--";
 }
 
-function change(sym){
-let c = data.find(x=>x.symbol===sym);
-return c ? parseFloat(c.priceChangePercent).toFixed(2)+"%" : "--";
+function c(sym){
+let x=data.find(x=>x.symbol===sym);
+return x?parseFloat(x.priceChangePercent).toFixed(2)+"%":"--";
 }
 
-// main market
-btc.innerText = price("BTCUSDT");
-eth.innerText = price("ETHUSDT");
-sol.innerText = price("SOLUSDT");
-xrp.innerText = price("XRPUSDT");
-bnb.innerText = price("BNBUSDT");
-doge.innerText = price("DOGEUSDT");
+btc.innerText=p("BTCUSDT");
+eth.innerText=p("ETHUSDT");
+sol.innerText=p("SOLUSDT");
+xrp.innerText=p("XRPUSDT");
+bnb.innerText=p("BNBUSDT");
+doge.innerText=p("DOGEUSDT");
 
-// movers
-btc2.innerText = price("BTCUSDT");
-eth2.innerText = price("ETHUSDT");
-sol2.innerText = price("SOLUSDT");
+btc2.innerText=p("BTCUSDT");
+eth2.innerText=p("ETHUSDT");
+sol2.innerText=p("SOLUSDT");
 
-btcChange.innerText = change("BTCUSDT");
-ethChange.innerText = change("ETHUSDT");
-solChange.innerText = change("SOLUSDT");
+btcChange.innerText=c("BTCUSDT");
+ethChange.innerText=c("ETHUSDT");
+solChange.innerText=c("SOLUSDT");
 
-}catch(e){
-console.log(e);
+lastBTC=parseFloat(p("BTCUSDT"));
+
+/// ALERT
+if(window.alertTarget && lastBTC >= window.alertTarget){
+alert("🚨 BTC HIT: "+lastBTC);
+alertStatus.innerText="ALERT TRIGGERED!";
+window.alertTarget=null;
 }
+
+}catch(e){}
 }
 
 getData();
 setInterval(getData,5000);
 
+/// ALERT
+function setAlert(){
+window.alertTarget=parseFloat(alertPrice.value);
+alertStatus.innerText="Alert set at "+window.alertTarget;
+}
 
-/// PROFIT CALCULATOR
+/// PROFIT
 function calcProfit(){
-let b=+buy.value, s=+sell.value, a=+amount.value;
-result.innerText="Profit: $"+((s-b)*a).toFixed(2);
+result.innerText="Profit: $"+((+sell.value-+buy.value)*+amount.value).toFixed(2);
 }
 
-/// DCA CALCULATOR
+/// DCA
 function calcDCA(){
-let t=+dca_amount.value, p=+dca_price.value;
-dca_result.innerText="Coins: "+(t/p).toFixed(6);
+dca_result.innerText="Coins: "+(+dca_amount.value/+dca_price.value).toFixed(6);
 }
 
-/// PORTFOLIO (LOCAL STORAGE)
-let portfolio = JSON.parse(localStorage.getItem("p")) || [];
+/// PORTFOLIO
+let p=JSON.parse(localStorage.getItem("p"))||[];
 
 function show(){
-portfolioList.innerHTML =
-portfolio.map((x,i)=>
+portfolioList.innerHTML=p.map((x,i)=>
 `<p>${x.n} - ${x.a} <button onclick="del(${i})">X</button></p>`
-).join("") || "No assets";
-localStorage.setItem("p",JSON.stringify(portfolio));
+).join("")||"Empty";
+localStorage.setItem("p",JSON.stringify(p));
 }
 
 function addCoin(){
-portfolio.push({n:coinName.value,a:coinAmount.value});
+p.push({n:coinName.value,a:coinAmount.value});
 show();
 }
 
 function del(i){
-portfolio.splice(i,1);
+p.splice(i,1);
 show();
 }
 
