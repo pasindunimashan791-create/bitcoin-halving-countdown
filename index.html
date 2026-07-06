@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Crypto Pro Dashboard | Live Market Movers</title>
+<title>Crypto Pro Dashboard | All-in-One</title>
 
 <style>
 
@@ -90,14 +90,14 @@ text-align:left;
 
 th{color:#00ffcc;}
 
-.positive{color:#00ff99;font-weight:bold;}
-.negative{color:#ff4d4d;font-weight:bold;}
-
 footer{
 font-size:12px;
 color:#666;
 margin:20px;
 }
+
+.positive{color:#00ff99;font-weight:bold;}
+.negative{color:#ff4d4d;font-weight:bold;}
 
 </style>
 
@@ -109,6 +109,7 @@ margin:20px;
 <div class="logo">₿ Crypto Pro</div>
 
 <nav>
+<a href="#halving">Halving</a>
 <a href="#market">Market</a>
 <a href="#tools">Tools</a>
 <a href="#news">News</a>
@@ -117,14 +118,22 @@ margin:20px;
 
 <h2>Live Crypto Dashboard</h2>
 
+<!-- HALVING -->
+<section id="halving">
+<div class="card">
+<h3>⏳ Bitcoin Halving Countdown</h3>
+<div id="countdown" style="font-size:28px;color:#00ffcc;">Loading...</div>
+</div>
+</section>
+
 <!-- MARKET -->
 <section id="market">
 
 <div class="card">
-<h3>📊 Live Market</h3>
+<h3>📊 Live Market (Binance)</h3>
 
 <table>
-<tr><th>Coin</th><th>Price</th></tr>
+<tr><th>Coin</th><th>Price (USDT)</th></tr>
 
 <tr><td>Bitcoin</td><td id="btc">--</td></tr>
 <tr><td>Ethereum</td><td id="eth">--</td></tr>
@@ -134,26 +143,20 @@ margin:20px;
 <tr><td>Dogecoin</td><td id="doge">--</td></tr>
 
 </table>
-
 </div>
 
 <!-- MOVERS -->
 <div class="card">
-<h3>📈 Market Movers (24h)</h3>
+<h3>📈 Market Movers (24h % Change)</h3>
 
 <table>
-<tr>
-<th>Coin</th>
-<th>Price</th>
-<th>Change %</th>
-</tr>
+<tr><th>Coin</th><th>Price</th><th>Change</th></tr>
 
 <tr><td>Bitcoin</td><td id="btc2">--</td><td id="btcChange">--</td></tr>
 <tr><td>Ethereum</td><td id="eth2">--</td><td id="ethChange">--</td></tr>
 <tr><td>Solana</td><td id="sol2">--</td><td id="solChange">--</td></tr>
 
 </table>
-
 </div>
 
 </section>
@@ -186,10 +189,10 @@ margin:20px;
 
 <hr>
 
-<h3>💼 Portfolio</h3>
+<h3>💼 Portfolio Tracker</h3>
 
-<input id="coinName" placeholder="Coin">
-<input id="coinAmount" placeholder="Amount">
+<input id="coinName" placeholder="Coin Name">
+<input id="coinAmount" placeholder="Amount Owned">
 
 <br>
 <button class="binance" onclick="addCoin()">Add</button>
@@ -207,11 +210,11 @@ margin:20px;
 <h3>📰 Crypto News</h3>
 
 <ul style="text-align:left;color:#aaa;line-height:1.6;">
-<li>Bitcoin remains strong in market</li>
+<li>Bitcoin market remains strong</li>
 <li>Ethereum upgrades improve scalability</li>
 <li>Solana ecosystem growing fast</li>
 <li>Crypto adoption increasing worldwide</li>
-<li>Traders watching BTC resistance</li>
+<li>Traders watching BTC levels</li>
 </ul>
 
 </div>
@@ -219,12 +222,29 @@ margin:20px;
 </section>
 
 <footer>
-Crypto Pro Dashboard • Binance API Powered
+Crypto Pro Dashboard • All-in-One Build
 </footer>
 
 <script>
 
-// BINANCE 24H API (UPGRADED)
+/// HALVING COUNTDOWN
+const target = new Date("2028-04-10T00:00:00").getTime();
+
+setInterval(()=>{
+let now = new Date().getTime();
+let diff = target - now;
+
+let d = Math.floor(diff/(1000*60*60*24));
+let h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+let m = Math.floor((diff%(1000*60*60))/(1000*60));
+let s = Math.floor((diff%(1000*60))/1000);
+
+document.getElementById("countdown").innerText =
+d+"d "+h+"h "+m+"m "+s+"s";
+},1000);
+
+
+/// BINANCE MARKET API (24h)
 async function getData(){
 try{
 
@@ -266,25 +286,27 @@ console.log(e);
 getData();
 setInterval(getData,5000);
 
-// PROFIT
+
+/// PROFIT CALCULATOR
 function calcProfit(){
 let b=+buy.value, s=+sell.value, a=+amount.value;
 result.innerText="Profit: $"+((s-b)*a).toFixed(2);
 }
 
-// DCA
+/// DCA CALCULATOR
 function calcDCA(){
 let t=+dca_amount.value, p=+dca_price.value;
 dca_result.innerText="Coins: "+(t/p).toFixed(6);
 }
 
-// PORTFOLIO
-let portfolio=JSON.parse(localStorage.getItem("p"))||[];
+/// PORTFOLIO (LOCAL STORAGE)
+let portfolio = JSON.parse(localStorage.getItem("p")) || [];
 
 function show(){
-portfolioList.innerHTML=portfolio.map((x,i)=>
+portfolioList.innerHTML =
+portfolio.map((x,i)=>
 `<p>${x.n} - ${x.a} <button onclick="del(${i})">X</button></p>`
-).join("")||"Empty";
+).join("") || "No assets";
 localStorage.setItem("p",JSON.stringify(portfolio));
 }
 
