@@ -5,9 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Crypto MultiTools | Live Bitcoin Tracker & Calculator</title>
+<title>Crypto MultiTools | Live Tracker & Calculators</title>
 
-<meta name="description" content="Live Bitcoin price, crypto market tracker, and profit calculator in one website.">
+<meta name="description" content="Live Bitcoin price, crypto market tracker, profit calculator and DCA tool in one website.">
 <meta name="keywords" content="bitcoin, crypto, btc price, ethereum, solana, crypto calculator">
 
 <style>
@@ -161,12 +161,10 @@ margin:20px;
 
 <!-- HALVING -->
 <section id="halving">
-
 <div class="card">
 <div class="small">Bitcoin Halving Countdown</div>
 <div class="timer" id="countdown">Loading...</div>
 </div>
-
 </section>
 
 <!-- PRICE -->
@@ -211,19 +209,36 @@ margin:20px;
 <section id="tools">
 
 <div class="card">
+
 <h3>🧮 Crypto Profit Calculator</h3>
 
-<p class="small">Enter buy price, sell price, amount</p>
+<p class="small">Buy / Sell Profit Calculator</p>
 
 <input id="buy" placeholder="Buy Price ($)">
 <input id="sell" placeholder="Sell Price ($)">
-<input id="amount" placeholder="Amount (coins)">
+<input id="amount" placeholder="Amount">
 
 <br>
 
-<button class="button binance" onclick="calcProfit()">Calculate</button>
+<button class="button binance" onclick="calcProfit()">Profit</button>
 
 <h3 id="result">Result: --</h3>
+
+<hr style="border:1px solid rgba(255,255,255,0.1);margin:15px 0;">
+
+<h3>📊 DCA Calculator</h3>
+
+<p class="small">Dollar Cost Averaging Tool</p>
+
+<input id="dca_amount" placeholder="Total Investment ($)">
+<input id="dca_price" placeholder="Buy Price ($)">
+<input id="dca_times" placeholder="Number of Buys">
+
+<br>
+
+<button class="button bybit" onclick="calcDCA()">DCA Calc</button>
+
+<h3 id="dca_result">Result: --</h3>
 
 </div>
 
@@ -269,7 +284,7 @@ document.getElementById("countdown").innerHTML =
 d+"d "+h+"h "+m+"m "+s+"s";
 },1000);
 
-// MARKET + PRICE
+// MARKET DATA
 async function getData(){
 
 try{
@@ -319,7 +334,27 @@ return;
 let profit = (sell - buy) * amount;
 
 document.getElementById("result").innerText =
-"Result: $" + profit.toFixed(2);
+"Profit: $" + profit.toFixed(2);
+
+}
+
+// DCA CALCULATOR
+function calcDCA(){
+
+let total = parseFloat(document.getElementById("dca_amount").value);
+let price = parseFloat(document.getElementById("dca_price").value);
+let times = parseFloat(document.getElementById("dca_times").value);
+
+if(isNaN(total) || isNaN(price) || isNaN(times) || times <= 0){
+document.getElementById("dca_result").innerText = "Enter valid numbers";
+return;
+}
+
+let coins = total / price;
+let avgPrice = total / coins;
+
+document.getElementById("dca_result").innerText =
+"Coins: " + coins.toFixed(6) + " | Avg: $" + avgPrice.toFixed(2);
 
 }
 
