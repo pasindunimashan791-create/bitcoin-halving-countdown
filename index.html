@@ -5,13 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Crypto Pro Dashboard | Live Market & Tools</title>
-
-<meta name="description" content="Advanced crypto dashboard with live Binance prices, portfolio tracker, and calculators.">
+<title>Crypto Pro Dashboard | Live Market Movers</title>
 
 <style>
-
-/* ===== MAIN UI ===== */
 
 body{
 margin:0;
@@ -80,11 +76,6 @@ font-weight:bold;
 .binance{background:#f7931a;}
 .bybit{background:#00ffcc;}
 
-button:hover{
-transform:scale(1.05);
-transition:0.2s;
-}
-
 table{
 width:100%;
 border-collapse:collapse;
@@ -99,7 +90,8 @@ text-align:left;
 
 th{color:#00ffcc;}
 
-.small{color:#aaa;font-size:12px;}
+.positive{color:#00ff99;font-weight:bold;}
+.negative{color:#ff4d4d;font-weight:bold;}
 
 footer{
 font-size:12px;
@@ -129,10 +121,10 @@ margin:20px;
 <section id="market">
 
 <div class="card">
-<h3>📊 Live Market (Binance)</h3>
+<h3>📊 Live Market</h3>
 
 <table>
-<tr><th>Coin</th><th>Price (USDT)</th></tr>
+<tr><th>Coin</th><th>Price</th></tr>
 
 <tr><td>Bitcoin</td><td id="btc">--</td></tr>
 <tr><td>Ethereum</td><td id="eth">--</td></tr>
@@ -140,6 +132,25 @@ margin:20px;
 <tr><td>XRP</td><td id="xrp">--</td></tr>
 <tr><td>BNB</td><td id="bnb">--</td></tr>
 <tr><td>Dogecoin</td><td id="doge">--</td></tr>
+
+</table>
+
+</div>
+
+<!-- MOVERS -->
+<div class="card">
+<h3>📈 Market Movers (24h)</h3>
+
+<table>
+<tr>
+<th>Coin</th>
+<th>Price</th>
+<th>Change %</th>
+</tr>
+
+<tr><td>Bitcoin</td><td id="btc2">--</td><td id="btcChange">--</td></tr>
+<tr><td>Ethereum</td><td id="eth2">--</td><td id="ethChange">--</td></tr>
+<tr><td>Solana</td><td id="sol2">--</td><td id="solChange">--</td></tr>
 
 </table>
 
@@ -196,11 +207,11 @@ margin:20px;
 <h3>📰 Crypto News</h3>
 
 <ul style="text-align:left;color:#aaa;line-height:1.6;">
-<li>Bitcoin market remains strong</li>
-<li>Ethereum network upgrades continue</li>
-<li>Solana ecosystem growing</li>
+<li>Bitcoin remains strong in market</li>
+<li>Ethereum upgrades improve scalability</li>
+<li>Solana ecosystem growing fast</li>
 <li>Crypto adoption increasing worldwide</li>
-<li>Traders watching BTC levels</li>
+<li>Traders watching BTC resistance</li>
 </ul>
 
 </div>
@@ -208,29 +219,44 @@ margin:20px;
 </section>
 
 <footer>
-Crypto Pro Dashboard • Demo Project
+Crypto Pro Dashboard • Binance API Powered
 </footer>
 
 <script>
 
-/// BINANCE API
+// BINANCE 24H API (UPGRADED)
 async function getData(){
 try{
 
-const res = await fetch("https://api.binance.com/api/v3/ticker/price");
+const res = await fetch("https://api.binance.com/api/v3/ticker/24hr");
 const data = await res.json();
 
-function get(sym){
-let c=data.find(x=>x.symbol===sym);
-return c?parseFloat(c.price).toFixed(2):"--";
+function price(sym){
+let c = data.find(x=>x.symbol===sym);
+return c ? parseFloat(c.lastPrice).toFixed(2) : "--";
 }
 
-document.getElementById("btc").innerText=get("BTCUSDT");
-document.getElementById("eth").innerText=get("ETHUSDT");
-document.getElementById("sol").innerText=get("SOLUSDT");
-document.getElementById("xrp").innerText=get("XRPUSDT");
-document.getElementById("bnb").innerText=get("BNBUSDT");
-document.getElementById("doge").innerText=get("DOGEUSDT");
+function change(sym){
+let c = data.find(x=>x.symbol===sym);
+return c ? parseFloat(c.priceChangePercent).toFixed(2)+"%" : "--";
+}
+
+// main market
+btc.innerText = price("BTCUSDT");
+eth.innerText = price("ETHUSDT");
+sol.innerText = price("SOLUSDT");
+xrp.innerText = price("XRPUSDT");
+bnb.innerText = price("BNBUSDT");
+doge.innerText = price("DOGEUSDT");
+
+// movers
+btc2.innerText = price("BTCUSDT");
+eth2.innerText = price("ETHUSDT");
+sol2.innerText = price("SOLUSDT");
+
+btcChange.innerText = change("BTCUSDT");
+ethChange.innerText = change("ETHUSDT");
+solChange.innerText = change("SOLUSDT");
 
 }catch(e){
 console.log(e);
@@ -240,19 +266,19 @@ console.log(e);
 getData();
 setInterval(getData,5000);
 
-/// PROFIT
+// PROFIT
 function calcProfit(){
 let b=+buy.value, s=+sell.value, a=+amount.value;
 result.innerText="Profit: $"+((s-b)*a).toFixed(2);
 }
 
-/// DCA
+// DCA
 function calcDCA(){
 let t=+dca_amount.value, p=+dca_price.value;
 dca_result.innerText="Coins: "+(t/p).toFixed(6);
 }
 
-/// PORTFOLIO
+// PORTFOLIO
 let portfolio=JSON.parse(localStorage.getItem("p"))||[];
 
 function show(){
