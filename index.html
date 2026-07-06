@@ -5,44 +5,64 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Crypto MultiTools | Portfolio & Live Market</title>
+<title>Crypto Pro Dashboard | Live Market & Tools</title>
 
-<meta name="description" content="Live crypto dashboard with market prices, calculators, news and portfolio tracker.">
-<meta name="keywords" content="bitcoin, crypto tracker, portfolio, dca calculator, crypto tools">
+<meta name="description" content="Advanced crypto dashboard with live Binance prices, portfolio tracker, and calculators.">
 
 <style>
+
+/* ===== LOGIN SCREEN ===== */
+#loginBox{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+#loginBox div{
+background:#111827;
+padding:20px;
+border-radius:10px;
+width:80%;
+max-width:300px;
+text-align:center;
+border:1px solid #1f2937;
+}
+
+/* ===== MAIN UI ===== */
 
 body{
 margin:0;
 font-family:Arial;
-background: radial-gradient(circle at top, #0f172a, #000);
+background:#0b0f1a;
 color:white;
 text-align:center;
 overflow-x:hidden;
 }
 
-/* HEADER */
 header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 20px;
+padding:15px;
 background:#0f172a;
+border-bottom:1px solid #1f2937;
 position:sticky;
 top:0;
-z-index:1000;
-border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 .logo{
 color:#f7931a;
 font-weight:bold;
-font-size:18px;
 }
 
 nav a{
 color:white;
-margin-left:12px;
+margin-left:10px;
 text-decoration:none;
 font-size:13px;
 }
@@ -51,48 +71,42 @@ nav a:hover{
 color:#00ffcc;
 }
 
-/* GLOW */
-.glow{
-position:absolute;
-width:250px;
-height:250px;
-background:#00ffcc;
-filter:blur(140px);
-opacity:0.15;
-top:10%;
-left:50%;
-transform:translateX(-50%);
-z-index:-1;
-}
-
-/* CARD */
 .card{
-background: rgba(255,255,255,0.05);
-backdrop-filter: blur(12px);
+background:#111827;
+border:1px solid #1f2937;
 margin:15px auto;
 padding:15px;
 width:85%;
 border-radius:12px;
-border:1px solid rgba(255,255,255,0.1);
+box-shadow:0 0 10px rgba(0,255,204,0.05);
 }
 
-h1{
-color:#f7931a;
-font-size:24px;
-margin-top:20px;
+input{
+padding:8px;
+margin:5px;
+width:80%;
+border-radius:6px;
+border:1px solid #1f2937;
+background:#0b1220;
+color:white;
 }
 
-.small{
-font-size:12px;
-color:#aaa;
+button{
+padding:8px 14px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
 }
 
-.timer{
-font-size:32px;
-color:#00ffcc;
+.binance{background:#f7931a;}
+.bybit{background:#00ffcc;}
+
+button:hover{
+transform:scale(1.05);
+transition:0.2s;
 }
 
-/* TABLE */
 table{
 width:100%;
 border-collapse:collapse;
@@ -101,40 +115,17 @@ margin-top:10px;
 
 th,td{
 padding:10px;
-border-bottom:1px solid rgba(255,255,255,0.1);
+border-bottom:1px solid #1f2937;
 text-align:left;
 }
 
-th{
-color:#00ffcc;
-}
+th{color:#00ffcc;}
 
-/* INPUT */
-input{
-border:none;
-border-radius:6px;
-outline:none;
-padding:8px;
-margin:5px;
-width:80%;
-}
-
-/* BUTTON */
-.button{
-padding:8px 14px;
-border:none;
-border-radius:6px;
-font-weight:bold;
-cursor:pointer;
-margin:5px;
-}
-
-.binance{background:#f7931a;}
-.bybit{background:#00ffcc;}
+.small{color:#aaa;font-size:12px;}
 
 footer{
 font-size:12px;
-color:#777;
+color:#666;
 margin:20px;
 }
 
@@ -144,51 +135,45 @@ margin:20px;
 
 <body>
 
+<!-- LOGIN -->
+<div id="loginBox">
+<div>
+<h3>🔐 Login</h3>
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+<br>
+<button class="binance" onclick="login()">Enter</button>
+<p class="small">Demo login (browser only)</p>
+</div>
+</div>
+
 <header>
-<div class="logo">₿ Crypto Tools</div>
+<div class="logo">₿ Crypto Pro</div>
 
 <nav>
-<a href="#halving">Halving</a>
 <a href="#market">Market</a>
 <a href="#tools">Tools</a>
 <a href="#news">News</a>
-<a href="#affiliate">Earn</a>
 </nav>
 </header>
 
-<div class="glow"></div>
-
-<h1>Crypto Live Dashboard</h1>
-
-<!-- HALVING -->
-<section id="halving">
-<div class="card">
-<div class="small">Bitcoin Halving Countdown</div>
-<div class="timer" id="countdown">Loading...</div>
-</div>
-</section>
-
-<!-- PRICE -->
-<div class="card">
-💰 Bitcoin Price: $<span id="btcPrice">Loading...</span>
-</div>
+<h2>Live Crypto Dashboard</h2>
 
 <!-- MARKET -->
 <section id="market">
 
 <div class="card">
-<h3>📊 Top Crypto Market</h3>
+<h3>📊 Live Market (Binance)</h3>
 
 <table>
+<tr><th>Coin</th><th>Price (USDT)</th></tr>
 
-<tr><th>Coin</th><th>Price</th></tr>
-
-<tr><td>Bitcoin</td><td>$<span id="btc">Loading...</span></td></tr>
-<tr><td>Ethereum</td><td>$<span id="eth">Loading...</span></td></tr>
-<tr><td>Solana</td><td>$<span id="sol">Loading...</span></td></tr>
-<tr><td>XRP</td><td>$<span id="xrp">Loading...</span></td></tr>
-<tr><td>BNB</td><td>$<span id="bnb">Loading...</span></td></tr>
-<tr><td>Dogecoin</td><td>$<span id="doge">Loading...</span></td></tr>
+<tr><td>Bitcoin</td><td id="btc">--</td></tr>
+<tr><td>Ethereum</td><td id="eth">--</td></tr>
+<tr><td>Solana</td><td id="sol">--</td></tr>
+<tr><td>XRP</td><td id="xrp">--</td></tr>
+<tr><td>BNB</td><td id="bnb">--</td></tr>
+<tr><td>Dogecoin</td><td id="doge">--</td></tr>
 
 </table>
 
@@ -201,44 +186,37 @@ margin:20px;
 
 <div class="card">
 
-<h3>🧮 Crypto Profit Calculator</h3>
+<h3>🧮 Profit Calculator</h3>
 
-<input id="buy" placeholder="Buy Price ($)">
-<input id="sell" placeholder="Sell Price ($)">
+<input id="buy" placeholder="Buy Price">
+<input id="sell" placeholder="Sell Price">
 <input id="amount" placeholder="Amount">
 
 <br>
+<button class="binance" onclick="calcProfit()">Calculate</button>
+<h3 id="result">--</h3>
 
-<button class="button binance" onclick="calcProfit()">Profit</button>
-
-<h3 id="result">Result: --</h3>
-
-<hr style="border:1px solid rgba(255,255,255,0.1);margin:15px 0;">
+<hr>
 
 <h3>📊 DCA Calculator</h3>
 
-<input id="dca_amount" placeholder="Total Investment ($)">
-<input id="dca_price" placeholder="Buy Price ($)">
-<input id="dca_times" placeholder="Number of Buys">
+<input id="dca_amount" placeholder="Total $">
+<input id="dca_price" placeholder="Buy Price">
+<input id="dca_times" placeholder="Times">
 
 <br>
+<button class="bybit" onclick="calcDCA()">Calc</button>
+<h3 id="dca_result">--</h3>
 
-<button class="button bybit" onclick="calcDCA()">DCA</button>
+<hr>
 
-<h3 id="dca_result">Result: --</h3>
+<h3>💼 Portfolio</h3>
 
-<hr style="border:1px solid rgba(255,255,255,0.1);margin:15px 0;">
-
-<h3>💼 Portfolio Tracker</h3>
-
-<input id="coinName" placeholder="Coin Name (BTC, ETH...)">
-<input id="coinAmount" placeholder="Amount Owned">
+<input id="coinName" placeholder="Coin">
+<input id="coinAmount" placeholder="Amount">
 
 <br>
-
-<button class="button binance" onclick="addCoin()">Add Coin</button>
-
-<h3>Your Portfolio</h3>
+<button class="binance" onclick="addCoin()">Add</button>
 
 <div id="portfolioList" style="text-align:left;color:#aaa;"></div>
 
@@ -250,189 +228,101 @@ margin:20px;
 <section id="news">
 
 <div class="card">
-
 <h3>📰 Crypto News</h3>
 
 <ul style="text-align:left;color:#aaa;line-height:1.6;">
-
-<li>📈 Bitcoin market remains strong</li>
-<li>🔥 Ethereum network upgrades continue</li>
-<li>🚀 Solana ecosystem expanding rapidly</li>
-<li>💰 Crypto adoption growing worldwide</li>
-<li>📊 Traders watching BTC resistance levels</li>
-
+<li>Bitcoin market remains strong</li>
+<li>Ethereum network upgrades continue</li>
+<li>Solana ecosystem growing</li>
+<li>Crypto adoption increasing worldwide</li>
+<li>Traders watching BTC levels</li>
 </ul>
 
 </div>
 
 </section>
 
-<!-- AFFILIATE -->
-<section id="affiliate">
-
-<div class="card">
-<h3>💰 Start Trading</h3>
-
-<a href="https://www.binance.com" target="_blank">
-<button class="button binance">Binance</button>
-</a>
-
-<a href="https://www.bybit.com" target="_blank">
-<button class="button bybit">Bybit</button>
-</a>
-
-</div>
-
-</section>
-
 <footer>
-Crypto Dashboard • Built for learning
+Crypto Pro Dashboard • Demo Project
 </footer>
 
 <script>
 
-// COUNTDOWN
-const target = new Date("2028-04-10T00:00:00").getTime();
+/// LOGIN
+function login(){
+let u=document.getElementById("user").value;
+let p=document.getElementById("pass").value;
 
-setInterval(()=>{
-let now = new Date().getTime();
-let diff = target - now;
+if(u && p){
+localStorage.setItem("logged","yes");
+document.getElementById("loginBox").style.display="none";
+}
+}
 
-let d = Math.floor(diff/(1000*60*60*24));
-let h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-let m = Math.floor((diff%(1000*60*60))/(1000*60));
-let s = Math.floor((diff%(1000*60))/1000);
+if(localStorage.getItem("logged")=="yes"){
+document.getElementById("loginBox").style.display="none";
+}
 
-document.getElementById("countdown").innerHTML =
-d+"d "+h+"h "+m+"m "+s+"s";
-},1000);
-
-// MARKET DATA
+/// BINANCE API
 async function getData(){
-
 try{
 
-let btc = await fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot");
-let btcData = await btc.json();
+const res = await fetch("https://api.binance.com/api/v3/ticker/price");
+const data = await res.json();
 
-document.getElementById("btcPrice").innerText =
-parseFloat(btcData.data.amount).toLocaleString();
-document.getElementById("btc").innerText =
-parseFloat(btcData.data.amount).toLocaleString();
+function get(sym){
+let c=data.find(x=>x.symbol===sym);
+return c?parseFloat(c.price).toFixed(2):"--";
+}
 
-let eth = await fetch("https://api.coinbase.com/v2/prices/ETH-USD/spot");
-let ethData = await eth.json();
-document.getElementById("eth").innerText =
-parseFloat(ethData.data.amount).toLocaleString();
-
-let sol = await fetch("https://api.coinbase.com/v2/prices/SOL-USD/spot");
-let solData = await sol.json();
-document.getElementById("sol").innerText =
-parseFloat(solData.data.amount).toLocaleString();
-
-let xrp = await fetch("https://api.coinbase.com/v2/prices/XRP-USD/spot");
-let xrpData = await xrp.json();
-document.getElementById("xrp").innerText =
-parseFloat(xrpData.data.amount).toLocaleString();
-
-let bnb = await fetch("https://api.coinbase.com/v2/prices/BNB-USD/spot");
-let bnbData = await bnb.json();
-document.getElementById("bnb").innerText =
-parseFloat(bnbData.data.amount).toLocaleString();
-
-let doge = await fetch("https://api.coinbase.com/v2/prices/DOGE-USD/spot");
-let dogeData = await doge.json();
-document.getElementById("doge").innerText =
-parseFloat(dogeData.data.amount).toLocaleString();
+document.getElementById("btc").innerText=get("BTCUSDT");
+document.getElementById("eth").innerText=get("ETHUSDT");
+document.getElementById("sol").innerText=get("SOLUSDT");
+document.getElementById("xrp").innerText=get("XRPUSDT");
+document.getElementById("bnb").innerText=get("BNBUSDT");
+document.getElementById("doge").innerText=get("DOGEUSDT");
 
 }catch(e){
 console.log(e);
 }
-
 }
 
 getData();
-setInterval(getData,60000);
+setInterval(getData,5000);
 
-// PROFIT CALCULATOR
+/// PROFIT
 function calcProfit(){
-
-let buy = parseFloat(document.getElementById("buy").value);
-let sell = parseFloat(document.getElementById("sell").value);
-let amount = parseFloat(document.getElementById("amount").value);
-
-if(isNaN(buy) || isNaN(sell) || isNaN(amount)){
-document.getElementById("result").innerText = "Enter valid numbers";
-return;
+let b=+buy.value, s=+sell.value, a=+amount.value;
+result.innerText="Profit: $"+((s-b)*a).toFixed(2);
 }
 
-let profit = (sell - buy) * amount;
-
-document.getElementById("result").innerText =
-"Profit: $" + profit.toFixed(2);
-
-}
-
-// DCA CALCULATOR
+/// DCA
 function calcDCA(){
-
-let total = parseFloat(document.getElementById("dca_amount").value);
-let price = parseFloat(document.getElementById("dca_price").value);
-let times = parseFloat(document.getElementById("dca_times").value);
-
-if(isNaN(total) || isNaN(price) || isNaN(times) || times <= 0){
-document.getElementById("dca_result").innerText = "Enter valid numbers";
-return;
+let t=+dca_amount.value, p=+dca_price.value;
+dca_result.innerText="Coins: "+(t/p).toFixed(6);
 }
 
-let coins = total / price;
-let avg = total / coins;
+/// PORTFOLIO
+let portfolio=JSON.parse(localStorage.getItem("p"))||[];
 
-document.getElementById("dca_result").innerText =
-"Coins: " + coins.toFixed(6) + " | Avg: $" + avg.toFixed(2);
-
-}
-
-// PORTFOLIO TRACKER
-let portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
-
-function showPortfolio(){
-let html = "";
-
-portfolio.forEach((item, index)=>{
-html += `<p>${item.name} - ${item.amount}
-<button onclick="removeCoin(${index})" style="background:red;color:white;border:none;padding:3px 6px;border-radius:4px;">X</button></p>`;
-});
-
-document.getElementById("portfolioList").innerHTML = html || "No coins added";
+function show(){
+portfolioList.innerHTML=portfolio.map((x,i)=>
+`<p>${x.n} - ${x.a} <button onclick="del(${i})">X</button></p>`
+).join("")||"Empty";
+localStorage.setItem("p",JSON.stringify(portfolio));
 }
 
 function addCoin(){
-
-let name = document.getElementById("coinName").value;
-let amount = document.getElementById("coinAmount").value;
-
-if(!name || !amount){
-alert("Enter valid data");
-return;
+portfolio.push({n:coinName.value,a:coinAmount.value});
+show();
 }
 
-portfolio.push({name, amount});
-localStorage.setItem("portfolio", JSON.stringify(portfolio));
-
-document.getElementById("coinName").value = "";
-document.getElementById("coinAmount").value = "";
-
-showPortfolio();
+function del(i){
+portfolio.splice(i,1);
+show();
 }
 
-function removeCoin(index){
-portfolio.splice(index,1);
-localStorage.setItem("portfolio", JSON.stringify(portfolio));
-showPortfolio();
-}
-
-showPortfolio();
+show();
 
 </script>
 
