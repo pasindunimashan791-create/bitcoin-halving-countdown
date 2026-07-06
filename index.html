@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Crypto MultiTools | Live Tracker & Calculators</title>
+<title>Crypto MultiTools | Live Market & News Dashboard</title>
 
-<meta name="description" content="Live Bitcoin price, crypto market tracker, profit calculator and DCA tool in one website.">
-<meta name="keywords" content="bitcoin, crypto, btc price, ethereum, solana, crypto calculator">
+<meta name="description" content="Live crypto prices, top market coins, calculators and crypto news in one dashboard.">
+<meta name="keywords" content="bitcoin, crypto, btc price, ethereum, solana, crypto news">
 
 <style>
 
@@ -82,14 +82,14 @@ font-size:24px;
 margin-top:20px;
 }
 
-.timer{
-font-size:32px;
-color:#00ffcc;
-}
-
 .small{
 font-size:12px;
 color:#aaa;
+}
+
+.timer{
+font-size:32px;
+color:#00ffcc;
 }
 
 /* TABLE */
@@ -151,6 +151,7 @@ margin:20px;
 <a href="#halving">Halving</a>
 <a href="#market">Market</a>
 <a href="#tools">Tools</a>
+<a href="#news">News</a>
 <a href="#affiliate">Earn</a>
 </nav>
 </header>
@@ -176,28 +177,18 @@ margin:20px;
 <section id="market">
 
 <div class="card">
-<h3>📊 Live Crypto Market</h3>
+<h3>📊 Top Crypto Market</h3>
 
 <table>
-<tr>
-<th>Coin</th>
-<th>Price</th>
-</tr>
 
-<tr>
-<td>Bitcoin</td>
-<td>$<span id="btc">Loading...</span></td>
-</tr>
+<tr><th>Coin</th><th>Price</th></tr>
 
-<tr>
-<td>Ethereum</td>
-<td>$<span id="eth">Loading...</span></td>
-</tr>
-
-<tr>
-<td>Solana</td>
-<td>$<span id="sol">Loading...</span></td>
-</tr>
+<tr><td>Bitcoin</td><td>$<span id="btc">Loading...</span></td></tr>
+<tr><td>Ethereum</td><td>$<span id="eth">Loading...</span></td></tr>
+<tr><td>Solana</td><td>$<span id="sol">Loading...</span></td></tr>
+<tr><td>XRP</td><td>$<span id="xrp">Loading...</span></td></tr>
+<tr><td>BNB</td><td>$<span id="bnb">Loading...</span></td></tr>
+<tr><td>Dogecoin</td><td>$<span id="doge">Loading...</span></td></tr>
 
 </table>
 
@@ -211,8 +202,6 @@ margin:20px;
 <div class="card">
 
 <h3>🧮 Crypto Profit Calculator</h3>
-
-<p class="small">Buy / Sell Profit Calculator</p>
 
 <input id="buy" placeholder="Buy Price ($)">
 <input id="sell" placeholder="Sell Price ($)">
@@ -228,17 +217,36 @@ margin:20px;
 
 <h3>📊 DCA Calculator</h3>
 
-<p class="small">Dollar Cost Averaging Tool</p>
-
 <input id="dca_amount" placeholder="Total Investment ($)">
 <input id="dca_price" placeholder="Buy Price ($)">
 <input id="dca_times" placeholder="Number of Buys">
 
 <br>
 
-<button class="button bybit" onclick="calcDCA()">DCA Calc</button>
+<button class="button bybit" onclick="calcDCA()">DCA</button>
 
 <h3 id="dca_result">Result: --</h3>
+
+</div>
+
+</section>
+
+<!-- NEWS -->
+<section id="news">
+
+<div class="card">
+
+<h3>📰 Crypto News</h3>
+
+<ul style="text-align:left;color:#aaa;line-height:1.6;">
+
+<li>📈 Bitcoin continues strong market movement</li>
+<li>🔥 Ethereum upgrades improve scalability</li>
+<li>🚀 Solana ecosystem growing rapidly</li>
+<li>💰 Crypto adoption increasing globally</li>
+<li>📊 Traders watching key BTC levels</li>
+
+</ul>
 
 </div>
 
@@ -294,21 +302,33 @@ let btcData = await btc.json();
 
 document.getElementById("btcPrice").innerText =
 parseFloat(btcData.data.amount).toLocaleString();
-
 document.getElementById("btc").innerText =
 parseFloat(btcData.data.amount).toLocaleString();
 
 let eth = await fetch("https://api.coinbase.com/v2/prices/ETH-USD/spot");
 let ethData = await eth.json();
-
 document.getElementById("eth").innerText =
 parseFloat(ethData.data.amount).toLocaleString();
 
 let sol = await fetch("https://api.coinbase.com/v2/prices/SOL-USD/spot");
 let solData = await sol.json();
-
 document.getElementById("sol").innerText =
 parseFloat(solData.data.amount).toLocaleString();
+
+let xrp = await fetch("https://api.coinbase.com/v2/prices/XRP-USD/spot");
+let xrpData = await xrp.json();
+document.getElementById("xrp").innerText =
+parseFloat(xrpData.data.amount).toLocaleString();
+
+let bnb = await fetch("https://api.coinbase.com/v2/prices/BNB-USD/spot");
+let bnbData = await bnb.json();
+document.getElementById("bnb").innerText =
+parseFloat(bnbData.data.amount).toLocaleString();
+
+let doge = await fetch("https://api.coinbase.com/v2/prices/DOGE-USD/spot");
+let dogeData = await doge.json();
+document.getElementById("doge").innerText =
+parseFloat(dogeData.data.amount).toLocaleString();
 
 }catch(e){
 console.log(e);
@@ -351,10 +371,10 @@ return;
 }
 
 let coins = total / price;
-let avgPrice = total / coins;
+let avg = total / coins;
 
 document.getElementById("dca_result").innerText =
-"Coins: " + coins.toFixed(6) + " | Avg: $" + avgPrice.toFixed(2);
+"Coins: " + coins.toFixed(6) + " | Avg: $" + avg.toFixed(2);
 
 }
 
