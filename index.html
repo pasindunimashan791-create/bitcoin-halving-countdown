@@ -5,19 +5,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bitcoin Halving Countdown 2028 | Live BTC Price Tracker</title>
+<title>Crypto MultiTools | Bitcoin Halving & Live Crypto Tracker</title>
 
-<meta name="description" content="Live Bitcoin Halving Countdown 2028 with real-time BTC price, block height updates, and crypto trading links. Track Bitcoin halving easily.">
-<meta name="keywords" content="bitcoin halving 2028, btc countdown, bitcoin price live, crypto tracker, bitcoin halving timer">
+<meta name="description" content="Live crypto dashboard with Bitcoin halving countdown, BTC price, and crypto tools like calculators, converters, and tracking tools.">
+<meta name="keywords" content="bitcoin halving, crypto tools, btc price, crypto calculator, bitcoin tracker, crypto dashboard">
 <meta name="robots" content="index, follow">
-<meta name="author" content="Bitcoin Tracker">
 
-<!-- Open Graph (Facebook / WhatsApp / Twitter preview) -->
-<meta property="og:title" content="Bitcoin Halving Countdown 2028">
-<meta property="og:description" content="Live Bitcoin price, countdown timer, and crypto tracker dashboard.">
+<meta property="og:title" content="Crypto MultiTools Dashboard">
+<meta property="og:description" content="Live Bitcoin price, halving countdown, and crypto tools in one website.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://your-site.github.io/">
-<meta property="og:image" content="https://bitcoin.org/img/icons/opengraph.png">
 
 <style>
 
@@ -26,10 +22,42 @@ margin:0;
 font-family:Arial;
 background: radial-gradient(circle at top, #0f172a, #000);
 color:white;
-text-align:center;
 overflow-x:hidden;
+text-align:center;
 }
 
+/* HEADER */
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 20px;
+background:#0f172a;
+position:sticky;
+top:0;
+z-index:1000;
+border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.logo{
+font-size:20px;
+font-weight:bold;
+color:#f7931a;
+}
+
+nav a{
+color:white;
+margin-left:15px;
+text-decoration:none;
+font-size:14px;
+transition:0.3s;
+}
+
+nav a:hover{
+color:#00ffcc;
+}
+
+/* GLOW */
 .glow{
 position:absolute;
 width:280px;
@@ -43,13 +71,21 @@ transform:translateX(-50%);
 z-index:-1;
 }
 
+/* TITLE */
 h1{
 color:#f7931a;
 margin-top:25px;
-font-size:32px;
-text-shadow:0 0 10px #f7931a, 0 0 20px #ff9900;
+font-size:28px;
+text-shadow:0 0 10px #f7931a;
 }
 
+.subtitle{
+color:#aaa;
+font-size:14px;
+margin-top:-10px;
+}
+
+/* CARD */
 .card{
 background: rgba(255,255,255,0.05);
 backdrop-filter: blur(12px);
@@ -70,13 +106,6 @@ box-shadow:0 0 25px rgba(0,255,204,0.25);
 .timer{
 font-size:42px;
 color:#00ffcc;
-text-shadow:0 0 10px #00ffcc, 0 0 20px #00ffee;
-}
-
-.price{
-font-size:20px;
-margin-top:10px;
-color:#fff;
 }
 
 .small{
@@ -84,6 +113,7 @@ font-size:13px;
 color:#aaa;
 }
 
+/* BUTTONS */
 .button{
 padding:10px 18px;
 border:none;
@@ -96,15 +126,12 @@ margin:5px;
 .binance{background:#f7931a;color:#000;}
 .bybit{background:#00ffcc;color:#000;}
 
-.footer{
-font-size:12px;
-color:#777;
-margin-top:25px;
-padding-bottom:20px;
+/* SECTIONS */
+section{
+margin-top:20px;
 }
 
-a{text-decoration:none;}
-
+/* INFO */
 .info{
 max-width:800px;
 margin:30px auto;
@@ -115,66 +142,97 @@ font-size:14px;
 line-height:1.6;
 }
 
+footer{
+font-size:12px;
+color:#777;
+margin-top:25px;
+padding-bottom:20px;
+}
+
 </style>
 
 </head>
 
 <body>
 
+<header>
+<div class="logo">₿ Crypto MultiTools</div>
+
+<nav>
+<a href="#halving">Halving</a>
+<a href="#prices">Prices</a>
+<a href="#tools">Tools</a>
+<a href="#affiliate">Earn</a>
+</nav>
+</header>
+
 <div class="glow"></div>
 
-<h1>₿ Bitcoin Halving Countdown 2028 - Live Tracker</h1>
+<h1>Crypto Multi-Tools Dashboard</h1>
+<p class="subtitle">Live crypto prices, Bitcoin halving countdown, and tools in one place.</p>
 
+<!-- HALVING -->
+<section id="halving">
 <div class="card">
 <div class="small">Next Bitcoin Halving In</div>
 <div class="timer" id="countdown">Loading...</div>
 </div>
+</section>
 
+<!-- PRICE -->
+<section id="prices">
 <div class="card">
 💰 Bitcoin Price: $<span id="btcPrice">Loading...</span>
 </div>
+</section>
 
-<!-- AFFILIATE SECTION -->
+<!-- TOOLS -->
+<section id="tools">
+<div class="card">
+<h3>🧮 Crypto Tools</h3>
+<ul style="text-align:left;color:#aaa;">
+<li>Crypto Profit Calculator (Coming Soon)</li>
+<li>DCA Calculator (Coming Soon)</li>
+<li>Mining Profit Calculator (Coming Soon)</li>
+<li>Crypto Converter (Coming Soon)</li>
+<li>Portfolio Tracker (Coming Soon)</li>
+</ul>
+</div>
+</section>
+
+<!-- AFFILIATE -->
+<section id="affiliate">
+
 <div class="card">
 <h3>💰 Start Crypto Trading</h3>
-<p>Join trusted crypto exchanges and start trading Bitcoin safely.</p>
+<p>Join trusted crypto exchanges and start trading.</p>
 
-<a href="https://www.binance.com/referral/earn-together/refer2earn-usdc/claim?hl=en&ref=GRO_28502_1IDLP&utm_source=referral_entrance" target="_blank">
+<a href="https://www.binance.com" target="_blank">
 <button class="button binance">Start on Binance</button>
 </a>
 
-<a href="https://www.bybit.com/invite?ref=1BDP9Z&medium=referral&utm_campaign=evergreen" target="_blank">
+<a href="https://www.bybit.com" target="_blank">
 <button class="button bybit">Start on Bybit</button>
 </a>
 
 </div>
 
-<!-- SEO CONTENT SECTION -->
+</section>
+
+<!-- INFO -->
 <div class="info">
 
-<h2 style="color:#f7931a;">Bitcoin Halving 2028 Tracker</h2>
+<h2 style="color:#f7931a;">About This Crypto Dashboard</h2>
 
 <p>
-This website provides a live Bitcoin Halving countdown with real-time Bitcoin price tracking. It helps users follow the next Bitcoin halving event in 2028.
-</p>
-
-<h3 style="color:#00ffcc;">What is Bitcoin Halving?</h3>
-
-<p>
-Bitcoin halving is a major event in the Bitcoin network where mining rewards are reduced by 50%. This affects Bitcoin supply and often influences long-term price trends.
-</p>
-
-<h3 style="color:#00ffcc;">Live Crypto Dashboard</h3>
-
-<p>
-This tool includes live BTC price updates and a real-time countdown timer for crypto investors and enthusiasts.
+This platform provides live Bitcoin tracking, halving countdown, and crypto tools for traders and beginners.
 </p>
 
 </div>
 
-<div class="footer">
-Live Bitcoin Dashboard • Affiliate links included
-</div>
+<footer>
+Crypto MultiTools • Built for learning & trading tools
+</footer>
 
 <script>
 
@@ -194,7 +252,7 @@ document.getElementById("countdown").innerHTML =
 d+"d "+h+"h "+m+"m "+s+"s";
 },1000);
 
-// PRICE
+// BTC PRICE
 async function getPrice(){
 try{
 const res = await fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot");
